@@ -13,6 +13,8 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
+    this.element = element;
+    this.registerEvents();
 
   }
 
@@ -21,6 +23,10 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
+    this.element.onsubmit = e => {
+      e.preventDefault();
+      this.submit();
+    };
 
   }
 
@@ -32,6 +38,8 @@ class AsyncForm {
    * }
    * */
   getData() {
+    const formData = new FormData(this.element);
+    return Object.fromEntries(formData.entries());
 
   }
 
@@ -44,6 +52,7 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
+    this.onSubmit(this.getData());
 
   }
 }
