@@ -9,6 +9,7 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
+    localStorage.user = JSON.stringify(user);
 
   }
 
@@ -26,8 +27,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    const user = localStorage.user;
-    return user ? JSON.parse(user) : user;
+    return JSON.parse(localStorage.getItem('user'));
 
   }
 
@@ -39,13 +39,13 @@ class User {
     createRequest({
       url: this.URL + '/current',
       method: 'GET',
+      responseType: 'json',
+      data,
       callback: (err, response) => {
         if (response && response.user) {
           this.setCurrent(response.user);
-        } else {
-          this.unsetCurrent('')
         }
-      callback(err, response);
+      callback.call(this, err, response);
         }
     
     });
@@ -83,6 +83,7 @@ class User {
     createRequest({
       url: this.URL + '/register',
       method: 'POST',
+      responseType: 'json',
       data,
       callback: (err, response) => {
         if (response && response.user) {
@@ -101,6 +102,7 @@ class User {
     createRequest({
       url: this.URL + '/logout',
       method: 'POST',
+      responseType: 'json',
       data,
       callback: (err, response) => {
         if (response && response.success) {

@@ -1,3 +1,4 @@
+
 /**
  * Класс Sidebar отвечает за работу боковой колонки:
  * кнопки скрытия/показа колонки в мобильной версии сайта
@@ -47,8 +48,11 @@ class Sidebar {
     };
 
     document.querySelector('.menu-item_logout > a').onclick = e => {
-      e.preventDefault();
-      App.setState('init');
-    };
+      User.logout({}, (err, response) => {
+        if (response && response.success) {
+          App.setState('init');
+        }
+      });
+    }
   }
 }

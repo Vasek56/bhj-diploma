@@ -1,3 +1,5 @@
+const { application } = require("express");
+
 /**
  * Класс CreateTransactionForm управляет формой
  * создания новой транзакции
@@ -8,7 +10,12 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element);
+    this.renderAccountsList();
+  }
+
+  update() {
+    this.renderAccountsList();
   }
 
   /**
@@ -16,6 +23,15 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
+    const select = this.element.querySelector('.accounts-select'),
+    renderItem = item => select.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+    Account.list({}, (err, response) => {
+      if (!response.data) {
+        return
+      }
+      select.innerHTML = '';
+      response.data.forEach(renderItem);
+    });
 
   }
 
@@ -26,6 +42,18 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
+    Transaction.create(options.data, (err, response) => {
+      if (!response.success) {
+        return
+      }
+      this.element.reset();
+      if(this.element.id === 'new-income-form') {
+        return App.getModal('newIncome').close();
+      }
+      App.getModal('newExpense').close();
+
+    });
+    App.update();
 
   }
 }
