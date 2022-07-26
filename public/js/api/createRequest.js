@@ -23,16 +23,12 @@ const createRequest = (options = {}) => {
     
 
     xhr.onload = function() {
-        if (xhr.status === 200) {
-            options.success.call(this, xhr.response);
-            options.callback.call(this, null, xhr.response )
-        }
+            options.callback.call(this, null, xhr.response ) 
     };
 
     xhr.onerror = function () {
         let err = new Error ('Ошибка');
         options.callback.call(this, err);
-        error.call(this, err);
     };
 
 

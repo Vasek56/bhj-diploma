@@ -12,10 +12,10 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
-    if(element) {
+    if(!element) {
+      throw new Error('элемент не был передан');
+      }
       this.element = element;
-    }
-    console.error('Не существует');
 
   }
 
@@ -28,7 +28,7 @@ class UserWidget {
    * */
   update(){
     let user = User.current();
-    if(user) {
+    if(!user) {
       document.querySelector('.user-name').textContent = user.name;
     }
 

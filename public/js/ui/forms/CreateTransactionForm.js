@@ -1,5 +1,3 @@
-const { application } = require("express");
-
 /**
  * Класс CreateTransactionForm управляет формой
  * создания новой транзакции

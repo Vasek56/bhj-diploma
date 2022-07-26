@@ -10,7 +10,7 @@ class CreateAccountForm extends AsyncForm {
    * */
   onSubmit(data) {
     Account.create(data, (err, response) => {
-      if (response && response.success) {
+      if (!response.success) {
         return
       }
         App.getWidget('accounts').update();
